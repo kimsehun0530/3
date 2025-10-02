@@ -7,6 +7,7 @@ public class S : MonoBehaviour
     [SerializeField] float speed = 10f;
     [SerializeField] float xRange = 5f;
     [SerializeField] float yRange = 5f;
+    [SerializeField] GameObject[] lasers;
 
     [SerializeField] float positionPitchFactor = -2f;
     [SerializeField] float controlPitchFactor = -10f;
@@ -21,6 +22,28 @@ public class S : MonoBehaviour
      {
         ProcessTranslation();
         ProcessRotation();
+        ProcessFiring();
+     }
+
+     void ProcessFiring()
+     {
+        if(Input.GetButton("Fire1"))
+        {
+            SetLasersActive(true);
+        }
+        else
+        {
+            SetLasersActive(false); 
+        }
+     }
+
+     void SetLasersActive(bool isActive)
+     {
+        foreach(GameObject beam in lasers)
+        {
+            var emissionModule = beam.GetComponent<ParticleSystem>().emission;
+            emissionModule.enabled = isActive;
+        }
      }
 
      void ProcessRotation()
